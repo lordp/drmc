@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}Bank Upload{% endblock %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+		<div class="ui form">
+			<div class="fields">
+			    <div class="field">
+			      <input type="file" name="file">
+			    </div>
+			    <div class="field">
+				    <button class="ui button" type="submit">Upload</button>
+			  </div>
+			</div>
+    	</div>
+    </form>
+
+    <div class="ui inverted message">
+		<p>The file to upload is in your World of Warcraft account saved variables folder. E.g.</p>
+		<p><span class="ui blue text">[World of Warcraft location]</span>\_classic_era_\WTF\Account\<span class="ui red text">[account name]</span>\SavedVariables\GBankClassic.lua</p>
+	</div>
+
+{% endblock %}

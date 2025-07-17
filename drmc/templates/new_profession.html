@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block header %}{{ profession|capitalize }}{% endblock %}
+
+{% block content %}
+	<form method="post" class="ui form">
+	<table class="ui celled padded compact inverted fixed table">
+		<tbody>
+			<tr>
+				<td colspan="2">
+					<div class="ui fluid input">
+						<input type="text" name="name" value="{% if name %}{{ name }}{% endif %}" placeholder="Enter the name of your player and check each known recipe and availability" />
+						<button class="ui submit button ml-10" type="submit">{% if name %}Update{% else %}Create{% endif %}</button>
+					</div>
+					<div class="ui error message"></div>
+				</td>
+			</tr>
+
+			<tr class="top aligned">
+				<td>
+					<div class="recipe_header">
+						<span class="ui large info text">Recipes</span>
+					</div>
+					<div class="ui celled list">
+					{% for recipe in recipes %}
+						{% set known = recipe["id"] in player_recipes %}
+						<div class="item">
+							<div class="content">
+								<div class="ui large checkbox">
+									<input type="checkbox" name="recipe" value="{{ recipe['id'] }}" {% if known %}checked{% endif %} />
+									<label>
+										<a href="https://www.wowhead.com/classic/spell={{recipe['id']}}" data-wowhead="domain=classic"></a>
+									</label>
+								</div>
+						    </div>
+		  				</div>
+					{% endfor %}
+		  			</div>
+		  		</td>
+				<td>
+					<p>Enter wowhead links for any recipes that aren't already listed that your character knows - please use the "spell" versions.</p>
+					<div class="field">
+						<textarea name="new_recipes"></textarea>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+{% endblock %}
+
+

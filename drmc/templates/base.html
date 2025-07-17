@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>DRMC Bank</title>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.css">
+	<style>
+		body {
+			background-color: #202020;
+		}
+
+		.search {
+			background-color: #e0e1e2 !important;
+		}
+
+		h1 {
+			margin-top:5px !important;
+		}
+
+		.ml-10 {
+			margin-left: 10px !important;
+		}
+
+		.recipe_header {
+			margin-top: 5px;
+			margin-bottom: 15px;
+		}
+	</style>
+	<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.4/dist/semantic.min.js"></script>
+	<script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
+	<script src="https://wow.zamimg.com/js/tooltips.js"></script>
+	<script>
+		function show_all() {
+			var items = document.querySelectorAll("table > tbody > tr > td:nth-child(1)");
+			items.forEach(function(currentValue, currentIndex, listObj) {
+				currentValue.parentElement.style.display = "";
+			});
+		}
+
+		function filter_by_name(event) {
+			input = event.target;
+			value = input.value;
+
+			var items = document.querySelectorAll("table > tbody > tr > td:nth-child(1)");
+			if (value.length > 2) {
+				items.forEach(function(currentValue, currentIndex, listObj) {
+					if (!currentValue.textContent.toLowerCase().includes(value)) {
+						console.log(currentValue.parentElement);
+						currentValue.parentElement.style.display = "none";
+					}
+					else {
+						currentValue.parentElement.style.display = "";
+					}
+				});
+			}
+			else {
+				show_all();
+			}
+		}
+
+		$.fn.form.settings.rules.wowhead = function(value) {
+			var valid = true;
+
+			var content = value.split("\n")
+			console.log(content);
+			for (i = 0; i < content.length; i++) {
+				line = content[i];
+				if (!line == "" && !line.toLowerCase().includes("https://www.wowhead.com/classic/spell=")) {
+					valid = false;
+				}
+			}
+
+			console.log(false);
+
+			return valid;
+		};
+
+		$(document).ready(function() {
+			$('.ui.form')
+			  .form({
+			    fields: {
+			    	name: {
+				        identifier: 'name',
+				        rules: [
+							{
+								type   : 'notEmpty',
+								prompt : 'Please enter your name.'
+							}
+				        ]
+				    },
+					wowhead: {
+						identifier: 'new_recipes',
+						rules: [
+							{
+								type: 'wowhead',
+								prompt: 'Incorrect wowhead links found, please remove them.'
+							}
+						]
+					}
+			    }
+			});
+		});
+	</script>
+</head>
+<body>
+
+<div class="ui container">
+	<h1 class="ui inverted header center aligned">The Devil's Rejects {% block header %}{% endblock %}</h1>
+	<div class="ui inverted centered menu">
+		<a class="item{{ is_active(request.path, url_for('bank.bank')) }}" href="{{ url_for('bank.bank') }}">Bank</a>
+		<a class="item{{ is_active(request.path, url_for('avail.availability')) }}" href="{{ url_for('avail.availability') }}">Availability</a>
+		{% for profession, path in config["professions"].items() %}
+		<a class="item{{ is_active(request.path, url_for(path)) }}" href="{{ url_for(path) }}">{{ profession }}</a>
+		{% endfor %}
+	</div>
+	{% include "flash.html" %}
+	{% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

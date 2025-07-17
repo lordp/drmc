@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block header %}{{ profession|capitalize }}{% endblock %}
+
+{% block content %}
+	<div class="ui fluid input">
+		<input class="search" type="text" placeholder="Search... (3 characters minimum)" oninput="filter_by_name(event)">
+		<a href="/drmc/{{ profession }}/new" class="ml-10">
+			<button class="ui button">New</button>
+		</a>
+	</div>
+
+	<table class="ui celled padded compact inverted head stuck table">
+		<thead>
+			<tr>
+		    	<th>Recipe</th>
+		    	{% for player in players %}
+				<th class="ui single line center aligned">
+					<p class="{{ profession }}" data-{{ profession }}="{{ player|lower }}"><a href="/drmc/{{ profession }}/edit/{{ player|lower }}">{{ player }}</a></p>
+				</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			{% for recipe in recipes %}
+			<tr>
+				<td><a href="https://www.wowhead.com/classic/spell={{recipe['id']}}" data-wowhead="domain=classic">{{ recipe["name"] }}</a></td>
+				{% for player, recipes in players.items() %}
+				<td class="ui center aligned">{% if recipe["id"] in recipes %}<i class="green check icon"></i>{% endif %}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}
+
+

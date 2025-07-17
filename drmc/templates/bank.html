@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block header %}Bank{% endblock %}
+
+{% block content %}
+	<div class="ui fluid input">
+		<input class="search" type="text" placeholder="Search... (3 characters minimum)" oninput="filter_by_name(event)">
+		<a href="upload" class="ml-10">
+			<button class="ui button">Upload</button>
+		</a>
+	</div>
+	<table class="ui celled padded compact inverted head stuck table">
+		<thead>
+			<tr>
+		    	<th>Item</th>
+		    	{% for alt in alts %}
+				<th class="ui single line center aligned" data-tooltip="Last updated at: {{ alt['updated_at'] }}">{{ alt['name'] }}</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			{% for item_id, item_info in items.items() %}
+			<tr>
+				<td><a href="https://www.wowhead.com/classic/item={{ item_id }}" data-wowhead="domain=classic">{{ item_info['item_name'] }}</a></td>
+				{% for alt in alts %}
+				<td class="collapsing center aligned"><span class="ui {{ item_info['counts'][alt['id']]|count_colour }} text">{{ item_info['counts'][alt['id']] }}</span></td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+	
+		</tbody>
+	</table>
+{% endblock %}

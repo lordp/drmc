@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block header %}Availability{% endblock %}
+
+{% block content %}
+	<form method="post">
+	<table class="ui padded compact inverted table">
+		<tbody>
+			<tr>
+				<td>
+					<div class="ui fluid input">
+						<input type="text" name="name" value="{{ name }}" placeholder="Enter the name of your player and check when they are available" />
+						<button class="ui button ml-10" type="submit">{% if name %}Update{% else %}Create{% endif %}</button>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td><span class="ui large info text">Availability</span></td>
+			</tr>
+			<tr class="top aligned">
+
+		  		<td>
+					<div class="ui list">
+						{% set days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %}
+						{% set meridians = ["AM", "PM"] %}
+						{% for day in days %}
+							{% for meridian in meridians %}
+								{% set value = day|lower + '_' + meridian|lower %}
+						<div class="item">
+							<div class="ui large inverted checkbox">
+								<input type="checkbox" name="availability" value="{{ value }}" {% if value in availability %}checked{% endif %} />
+								<label>
+									{{ day + ' ' + meridian }}
+								</label>
+							</div>
+		  				</div>
+		  					{% endfor %}
+		  				{% endfor %}
+		  			</div>
+		  		</td>
+		  	</tr>
+			<tr>
+				<td><span class="ui large info text">At raid - only relevant for Cooking and Enchanting</span></td>
+			</tr>
+		  	<tr>
+		  		<td>
+					<div class="ui large inverted checkbox">
+						<input type="checkbox" name="at_raid" value="Yes" {% if at_raid in availability %}checked{% endif %} />
+						<label>
+							At raid?
+						</label>
+					</div>
+
+		  		</td>
+		  	</tr>
+		</tbody>
+	</table>
+	</form>
+{% endblock %}
+
+

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block header %}Availability{% endblock %}
+
+{% block content %}
+	<div class="ui fluid input">
+		<input class="search" type="text" placeholder="Search... (3 characters minimum)" oninput="filter_by_name(event)">
+		<a href="/drmc/availability/new" class="ml-10">
+			<button class="ui button">New</button>
+		</a>
+	</div>
+
+	{% set days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %}
+	<table class="ui celled padded compact inverted table">
+		<thead>
+			<tr>
+		    	<th>Player</th>
+		    	<th class="ui center aligned">At Raid?</th>
+				{% for day in days %}
+				<th class="ui center aligned">{{ day }}</th>
+				{% endfor %}
+
+			</tr>
+		</thead>
+		<tbody>
+	    	{% for player, avail in availability.items() %}
+	    	<tr>
+				<td>
+					<a href="/drmc/availability/edit/{{ player|lower }}">{{ player }}</a>
+				</td>
+				<td class="ui center aligned">{% if "at_raid" in avail %}<i class="green check icon"></i>{% endif %}</td>
+				{% for day in days %}
+				<td class="ui center aligned">{% for meridian in ["AM", "PM"] %}{% if day|lower + "_" + meridian|lower in avail %}{{ meridian }} {% endif %}{% endfor %}</th>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}
+
+
