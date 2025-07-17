@@ -63,16 +63,16 @@
 		$.fn.form.settings.rules.wowhead = function(value) {
 			var valid = true;
 
-			var content = value.split("\n")
-			console.log(content);
-			for (i = 0; i < content.length; i++) {
-				line = content[i];
-				if (!line == "" && !line.toLowerCase().includes("https://www.wowhead.com/classic/spell=")) {
-					valid = false;
+			// only check if the content is not empty
+			if (value != "") {
+				var content = value.split("\n")
+				for (i = 0; i < content.length; i++) {
+					line = content[i];
+					if (!line.toLowerCase().includes("https://www.wowhead.com/classic/spell=")) {
+						valid = false;
+					}
 				}
 			}
-
-			console.log(false);
 
 			return valid;
 		};
