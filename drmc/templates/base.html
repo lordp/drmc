@@ -33,7 +33,7 @@
 	<script src="https://wow.zamimg.com/js/tooltips.js"></script>
 	<script>
 		function show_all() {
-			var items = document.querySelectorAll("table > tbody > tr > td:nth-child(1)");
+			var items = document.querySelectorAll("table.filterable > tbody > tr > td:nth-child(1)");
 			items.forEach(function(currentValue, currentIndex, listObj) {
 				currentValue.parentElement.style.display = "";
 			});
@@ -43,11 +43,10 @@
 			input = event.target;
 			value = input.value;
 
-			var items = document.querySelectorAll("table > tbody > tr > td:nth-child(1)");
+			var items = document.querySelectorAll("table.filterable > tbody > tr > td:nth-child(1)");
 			if (value.length > 2) {
 				items.forEach(function(currentValue, currentIndex, listObj) {
 					if (!currentValue.textContent.toLowerCase().includes(value)) {
-						console.log(currentValue.parentElement);
 						currentValue.parentElement.style.display = "none";
 					}
 					else {
